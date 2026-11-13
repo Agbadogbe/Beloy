@@ -40,6 +40,12 @@ export function formatDate(isoDate) {
   ).format(new Date(`${isoDate}T00:00:00Z`));
 }
 
+/** Month names in the current locale: ["janvier", ..., "décembre"]. */
+export function monthNames() {
+  const f = formatter('month', (locale) => new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }));
+  return Array.from({ length: 12 }, (_, i) => f.format(new Date(Date.UTC(2000, i, 1))));
+}
+
 export function formatNumber(value) {
   return formatter('number', (locale) => new Intl.NumberFormat(locale)).format(value);
 }

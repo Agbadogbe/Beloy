@@ -39,6 +39,40 @@ export function selectField({ id, label, hint, value, options, error }) {
 }
 
 /*
+  A past date the customer knows by heart (birth, licence): day, month and
+  year as three native selects. Much faster than a calendar picker, where
+  reaching 1994 means paging back month by month; a focused select also
+  jumps when you type "1994". Each select has `data-date="<id>"` so screens
+  can tell which date it belongs to. `parts` is { day, month, year }.
+*/
+export function dateField({ id, label, hint, parts, years, months, labels, error }) {
+  const pad = (n) => String(n).padStart(2, '0');
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const select = (part, options, current) => html`
+    <div class="date-parts__item">
+      <label class="date-parts__label" for="${id}__${part}">${labels[part]}</label>
+      <div class="select">
+        <select class="input" id="${id}__${part}" name="${id}__${part}" data-date="${id}" data-part="${part}"
+          aria-describedby="${describedBy(id, hint)}" ${error ? 'aria-invalid="true"' : ''}>
+          <option value="" ${current ? '' : 'selected'}>–</option>
+          ${options.map((o) => html`<option value="${o.value}" ${o.value === current ? 'selected' : ''}>${o.label}</option>`)}
+        </select>
+      </div>
+    </div>`;
+  return html`
+    <fieldset class="field ${error ? 'field--invalid' : ''}">
+      <legend class="field__label">${label}</legend>
+      ${hint ? html`<p class="field__hint" id="${id}-hint">${hint}</p>` : ''}
+      <div class="date-parts">
+        ${select('day', days.map((d) => ({ value: pad(d), label: d })), parts.day)}
+        ${select('month', months.map((name, i) => ({ value: pad(i + 1), label: name })), parts.month)}
+        ${select('year', years.map((y) => ({ value: String(y), label: y })), parts.year)}
+      </div>
+      <p class="field__error" id="${id}-error">${error ? html`${icon('alert')}<span>${error}</span>` : ''}</p>
+    </fieldset>`;
+}
+
+/*
   A group of native radios, styled as chips or as cards with an icon.
   Native radios give arrow-key navigation and screen reader semantics for free.
 */
@@ -96,5 +130,5 @@ export function clearError(root, name) {
   if (!message) return;
   message.textContent = '';
   message.closest('.field')?.classList.remove('field--invalid');
-  root.querySelectorAll(`[name="${name}"]`).forEach((el) => el.removeAttribute('aria-invalid'));
+  root.querySelectorAll(`[name="${name}"], [data-date="${name}"]`).forEach((el) => el.removeAttribute('aria-invalid'));
 }

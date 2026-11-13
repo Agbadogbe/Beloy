@@ -6,9 +6,9 @@
 
 import { html, render } from '../html.js';
 import { t } from '../i18n.js';
-import { formatNumber } from '../format.js';
+import { formatNumber, monthNames } from '../format.js';
 import { stepHeader, actions } from '../components/layout.js';
-import { textField, choiceGroup, focusFirstError, clearError } from '../components/fields.js';
+import { textField, dateField, choiceGroup, focusFirstError, clearError } from '../components/fields.js';
 import { state } from '../store.js';
 
 const KM_CHOICES = [5000, 10000, 15000, 20000, 30000];
@@ -17,6 +17,33 @@ const CLAIMS_CHOICES = [0, 1, 2, 3];
 const todayIso = () => new Date().toISOString().slice(0, 10);
 let errors = {};
 let submitted = false;
+
+/*
+  The two dates are typed as day / month / year selects. What the customer
+  has picked so far lives here, so a half-filled date survives a re-render;
+  state.driver only holds a date once all three parts are chosen.
+*/
+let parts = {};
+const splitIso = (iso) => {
+  const [year = '', month = '', day = ''] = (iso || '').split('-');
+  return { day, month, year };
+};
+const partsOf = (id) => (parts[id] ??= splitIso(state.driver[id]));
+
+/* Newest first: the years people actually pick are near the top. */
+const yearsBack = (from, count) => Array.from({ length: count }, (_, i) => from - i);
+const thisYear = () => new Date().getUTCFullYear();
+
+const isRealDate = (iso) => new Date(`${iso}T00:00:00Z`).toISOString().slice(0, 10) === iso;
+
+function dateProblem(id) {
+  const p = partsOf(id);
+  const filled = [p.day, p.month, p.year].filter(Boolean).length;
+  if (filled === 0) return 'error.required';
+  if (filled < 3) return 'flow.driver.error.dateIncomplete';
+  if (!isRealDate(state.driver[id])) return 'flow.driver.error.dateInvalid';
+  return null;
+}
 
 function yearsSince(iso) {
   const from = new Date(`${iso}T00:00:00Z`);
@@ -34,13 +61,15 @@ function yearsSince(iso) {
 function validate() {
   const d = state.driver;
   errors = {};
-  if (!d.birth_date) errors.birth_date = 'error.required';
+  const birthProblem = dateProblem('birth_date');
+  if (birthProblem) errors.birth_date = birthProblem;
   else if (d.birth_date >= todayIso()) errors.birth_date = 'flow.driver.error.birthFuture';
   else if (yearsSince(d.birth_date) < 18) errors.birth_date = 'flow.driver.error.under18';
 
-  if (!d.licence_since) errors.licence_since = 'error.required';
+  const licenceProblem = dateProblem('licence_since');
+  if (licenceProblem) errors.licence_since = licenceProblem;
   else if (d.licence_since > todayIso()) errors.licence_since = 'flow.driver.error.licenceFuture';
-  else if (d.birth_date && d.licence_since < d.birth_date) errors.licence_since = 'flow.driver.error.licenceBeforeBirth';
+  else if (!birthProblem && d.licence_since < d.birth_date) errors.licence_since = 'flow.driver.error.licenceBeforeBirth';
 
   if (d.claims_3y === null) errors.claims_3y = 'error.choose';
   if (d.annual_km === null) errors.annual_km = 'error.choose';
@@ -55,6 +84,10 @@ export default {
 
   render(root, ctx) {
     const d = state.driver;
+    const dateCommon = {
+      months: monthNames(),
+      labels: { day: t('date.day'), month: t('date.month'), year: t('date.year') },
+    };
     render(
       root,
       html`
@@ -63,10 +96,8 @@ export default {
 
           <section class="card stack" aria-labelledby="driver-about">
             <h2 class="card__title" id="driver-about">${t('flow.driver.section.about')}</h2>
-            <div class="grid-2">
-              ${textField({ id: 'birth_date', label: t('flow.driver.birthDate'), type: 'date', max: todayIso(), value: d.birth_date, autocomplete: 'bday', error: errors.birth_date && t(errors.birth_date) })}
-              ${textField({ id: 'licence_since', label: t('flow.driver.licenceSince'), hint: t('flow.driver.licenceHint'), type: 'date', max: todayIso(), value: d.licence_since, error: errors.licence_since && t(errors.licence_since) })}
-            </div>
+            ${dateField({ ...dateCommon, id: 'birth_date', label: t('flow.driver.birthDate'), parts: partsOf('birth_date'), years: yearsBack(thisYear() - 18, 83), error: errors.birth_date && t(errors.birth_date) })}
+            ${dateField({ ...dateCommon, id: 'licence_since', label: t('flow.driver.licenceSince'), hint: t('flow.driver.licenceHint'), parts: partsOf('licence_since'), years: yearsBack(thisYear(), 83), error: errors.licence_since && t(errors.licence_since) })}
             ${choiceGroup({
               name: 'claims_3y',
               legend: t('flow.driver.claims'),
@@ -129,14 +160,24 @@ export default {
     const NUMERIC = ['claims_3y', 'annual_km'];
 
     form.addEventListener('input', (e) => {
-      const { name, value } = e.target;
+      const { name, value, dataset } = e.target;
+      if (dataset.date) {
+        const p = partsOf(dataset.date);
+        p[dataset.part] = value;
+        d[dataset.date] = p.day && p.month && p.year ? `${p.year}-${p.month}-${p.day}` : '';
+        return;
+      }
       if (!(name in d)) return;
       d[name] = NUMERIC.includes(name) ? Number(value) : value.trim();
     });
 
     // After a failed submit, clear each error as soon as the field is fixed.
-    form.addEventListener('change', (e) => {
-      const { name } = e.target;
+    // On `input`, not `change`: `change` fires on blur, i.e. on the mousedown
+    // of the next click; the message vanishing then shifts the layout and the
+    // mouseup lands elsewhere, so the click is lost. Errors are only ever
+    // removed here, never added, so nobody is scolded mid-typing.
+    form.addEventListener('input', (e) => {
+      const name = e.target.dataset.date ?? e.target.name;
       if (!submitted || !errors[name]) return;
       validate();
       if (!errors[name]) clearError(form, name);
@@ -154,5 +195,6 @@ export default {
   reset() {
     errors = {};
     submitted = false;
+    parts = {};
   },
 };

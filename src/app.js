@@ -61,6 +61,8 @@ const ctx = {
   complete(step) {
     completed.add(step);
   },
+  /* The screen on show, for async work that must not redraw another one. */
+  current: () => current,
   /* Re-render the current screen, then put focus back where the user was. */
   rerender(focusSelector, after) {
     renderScreen({ focusSelector, after });

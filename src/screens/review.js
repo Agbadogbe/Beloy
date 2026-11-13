@@ -179,7 +179,8 @@ export default {
       if (type === 'checkbox' && name in state.consents) state.consents[name] = checked;
       else if (name in h) h[name] = value;
     });
-    form.addEventListener('change', (e) => {
+    // On `input`, not `change`: see the driver screen (a blur-time layout shift swallows the next click).
+    form.addEventListener('input', (e) => {
       const { name } = e.target;
       if (!submitted || !errors[name]) return;
       validate();

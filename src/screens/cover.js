@@ -34,7 +34,9 @@ async function fetchQuote(ctx) {
   state.quote = result.ok
     ? { status: 'ready', data: result.data, problem: null, requestKey: key }
     : { status: 'error', data: null, problem: result.problem, requestKey: key };
-  ctx.rerender(result.ok ? null : '#problem-title');
+  // Only redraw if the customer is still looking at this screen: redrawing
+  // the driver form under someone typing would wipe their focus.
+  if (ctx.current() === 'cover') ctx.rerender(result.ok ? null : '#problem-title');
 }
 
 /* ---------- pieces ---------- */

@@ -131,6 +131,11 @@ export default {
   'flow.driver.error.under18': 'The policyholder must be at least 18.',
   'flow.driver.error.licenceFuture': 'This date is in the future. Check the year.',
   'flow.driver.error.licenceBeforeBirth': 'The licence date is before the date of birth.',
+  'flow.driver.error.dateIncomplete': 'Enter the day, the month and the year.',
+  'flow.driver.error.dateInvalid': 'This date does not exist. Check the day and the month.',
+  'date.day': 'Day',
+  'date.month': 'Month',
+  'date.year': 'Year',
   'flow.driver.error.postcode': 'A French postcode has 5 digits, for example 75011.',
 
   /* ---------- step 3, cover ---------- */

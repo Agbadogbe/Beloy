@@ -131,6 +131,11 @@ export default {
   'flow.driver.error.under18': 'Le titulaire du contrat doit avoir au moins 18 ans.',
   'flow.driver.error.licenceFuture': 'Cette date est dans le futur. Vérifiez l’année.',
   'flow.driver.error.licenceBeforeBirth': 'La date du permis est antérieure à la date de naissance.',
+  'flow.driver.error.dateIncomplete': 'Indiquez le jour, le mois et l’année.',
+  'flow.driver.error.dateInvalid': 'Cette date n’existe pas. Vérifiez le jour et le mois.',
+  'date.day': 'Jour',
+  'date.month': 'Mois',
+  'date.year': 'Année',
   'flow.driver.error.postcode': 'Un code postal français compte 5 chiffres, par exemple 75011.',
 
   /* ---------- step 3, cover ---------- */
