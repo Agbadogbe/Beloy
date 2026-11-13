@@ -1,0 +1,14 @@
+{
+  "name": "beloy-bmw-ev-cover",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Beloy take-home: BMW France electric vehicle cover enrollment flow, plain HTML/CSS/JS, with an Ardenne Assurance mock API.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "check": "node scripts/check.js"
+  }
+}

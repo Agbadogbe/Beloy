@@ -1,0 +1,245 @@
+/*
+  Design tokens. The ONLY file allowed to contain colour values or raw sizes.
+
+  Layer 1, primitives: values taken from bmw.fr (see README / write-up).
+  Layer 2, semantic tokens: what components use. Each skin (light, dark) maps
+  the semantic tokens onto primitives. Components never read a primitive.
+
+  To rebrand the flow, change this file (and the font link in index.html).
+*/
+
+:root {
+  /* ---------- Primitives: colour ---------- */
+  --prim-blue-700: #0653b6;   /* hover / pressed, darker step of the BMW blue */
+  --prim-blue-600: #1c69d4;   /* bmw.fr primary CTA and links */
+  --prim-blue-300: #6ea6f2;   /* lighter step, used for text on dark */
+  --prim-blue-200: #bbd2f3;   /* bmw.fr secondary blue */
+  --prim-blue-100: #e8f0fb;   /* tinted surface for the selected state */
+  --prim-blue-900: #0f2440;   /* selected surface on dark */
+
+  --prim-grey-1000: #000000;
+  --prim-grey-950: #0d0d0d;   /* dark skin page background */
+  --prim-grey-900: #1a1a1a;   /* dark skin surface */
+  --prim-grey-850: #262626;   /* bmw.fr body text, dark skin raised surface */
+  --prim-grey-700: #4d4d4d;
+  --prim-grey-600: #666666;   /* muted text on white */
+  --prim-grey-500: #8e8e8e;
+  --prim-grey-400: #a8a8a8;   /* muted text on dark */
+  --prim-grey-300: #bbbbbb;
+  --prim-grey-200: #e6e6e6;   /* hairlines on white */
+  --prim-grey-100: #f2f2f2;   /* bmw.fr light grey sections */
+  --prim-white: #ffffff;
+
+  --prim-green-700: #1e7a3c;
+  --prim-green-300: #6fcf8f;
+  --prim-green-100: #e7f5ec;
+  --prim-green-900: #10301c;
+  --prim-red-700: #c3002f;
+  --prim-red-300: #ff8a9f;
+  --prim-red-100: #fbe9ed;
+  --prim-red-900: #3a0d17;
+  --prim-amber-700: #8a5a00;
+  --prim-amber-300: #f2c766;
+  --prim-amber-100: #fdf4e0;
+  --prim-amber-900: #33240a;
+
+  --prim-shadow: rgb(0 0 0 / 0.12);
+  --prim-scrim: rgb(0 0 0 / 0.55);
+
+  /* ---------- Typography ---------- */
+  /* bmwTypeNextWeb is licensed. Barlow is a free grotesk with the same
+     squared, technical feel (DIN lineage) and a real Light weight for the
+     big thin headlines bmw.fr uses. */
+  --font-family: "Barlow", Arial, Helvetica, sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-bold: 600;
+
+  --font-size-xs: 0.75rem;    /* 12 */
+  --font-size-sm: 0.875rem;   /* 14 */
+  --font-size-md: 1rem;       /* 16 */
+  --font-size-lg: 1.125rem;   /* 18 */
+  --font-size-xl: 1.25rem;    /* 20 */
+  --font-size-2xl: 1.5rem;    /* 24 */
+  --font-size-3xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);  /* 28 -> 40 */
+  --font-size-hero: clamp(2.5rem, 1.6rem + 4.2vw, 5rem);    /* 40 -> 80, bmw.fr h1 is 80px */
+  --font-size-figure: clamp(1.75rem, 1.5rem + 1.2vw, 2.25rem);
+
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-body: 1.5;
+  --letter-spacing-caps: 0.04em;
+
+  /* ---------- Space: 4px base unit, as on bmw.fr ---------- */
+  --space-1: 0.25rem;  /* 4 */
+  --space-2: 0.5rem;   /* 8 */
+  --space-3: 0.75rem;  /* 12 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.5rem;   /* 24 */
+  --space-6: 2rem;     /* 32 */
+  --space-7: 2.5rem;   /* 40 */
+  --space-8: 3rem;     /* 48 */
+  --space-9: 4rem;     /* 64 */
+  --space-10: 6rem;    /* 96 */
+
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 6rem);  /* bmw.fr page margin, 96px on desktop */
+
+  /* ---------- Shape, size, motion ---------- */
+  --radius-sm: 3px;       /* bmw.fr buttons and inputs */
+  --radius-round: 999px;
+  --border-width: 1px;
+  --border-width-selected: 2px;
+  --focus-width: 3px;
+  --focus-offset: 2px;
+
+  --control-height: 3rem;       /* 48px, bmw.fr CTA height is 52px, 48 fits phones */
+  --control-height-sm: 2.25rem;
+  --icon-size: 1.5rem;
+  --icon-size-sm: 1.125rem;
+  --icon-size-lg: 2rem;
+  --logo-size: 2.5rem;
+  --container-max: 75rem;       /* 1200 */
+  --container-narrow: 40rem;    /* forms read better narrow */
+  --header-height: 4.5rem;
+  --stepper-bar-height: 0.25rem;
+  --skeleton-line: 0.875rem;
+  --package-min-height: 21rem;
+
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-spin: 800ms;
+  --duration-shimmer: 1.4s;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  --shadow-raised: 0 0.5rem 1.5rem var(--prim-shadow);
+
+  /* Print is always black on white, whatever the skin. */
+  --color-print-bg: var(--prim-white);
+  --color-print-text: var(--prim-grey-1000);
+}
+
+/* ---------- Light skin (extracted from bmw.fr) ---------- */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-bg: var(--prim-white);
+  --color-bg-subtle: var(--prim-grey-100);
+  --color-surface: var(--prim-white);
+  --color-surface-raised: var(--prim-white);
+  --color-text: var(--prim-grey-850);
+  --color-text-muted: var(--prim-grey-600);
+  --color-border: var(--prim-grey-200);
+  --color-border-strong: var(--prim-grey-500);
+
+  --color-accent: var(--prim-blue-600);
+  --color-accent-hover: var(--prim-blue-700);
+  --color-on-accent: var(--prim-white);
+  --color-accent-text: var(--prim-blue-600);
+  --color-selected-surface: var(--prim-blue-100);
+  --color-focus: var(--prim-blue-600);
+
+  --color-hero-bg: var(--prim-grey-1000);
+  --color-hero-text: var(--prim-white);
+  --color-hero-muted: var(--prim-grey-300);
+  --color-hero-glow: var(--prim-blue-900);
+
+  --color-disabled-bg: var(--prim-grey-200);
+  --color-disabled-text: var(--prim-grey-600);
+  --color-skeleton: var(--prim-grey-100);
+  --color-skeleton-shine: var(--prim-grey-200);
+
+  --color-success: var(--prim-green-700);
+  --color-success-surface: var(--prim-green-100);
+  --color-danger: var(--prim-red-700);
+  --color-danger-surface: var(--prim-red-100);
+  --color-warning: var(--prim-amber-700);
+  --color-warning-surface: var(--prim-amber-100);
+
+  --color-scrim: var(--prim-scrim);
+}
+
+/* ---------- Dark skin (invented: bmw.fr has none) ----------
+   Takes its cue from the black hero and night photography on bmw.fr:
+   near-black, not grey; the blue stays the action colour; text on dark
+   uses a lighter blue because #1c69d4 on black fails AA for small text. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-bg: var(--prim-grey-950);
+  --color-bg-subtle: var(--prim-grey-900);
+  --color-surface: var(--prim-grey-900);
+  --color-surface-raised: var(--prim-grey-850);
+  --color-text: var(--prim-grey-100);
+  --color-text-muted: var(--prim-grey-400);
+  --color-border: var(--prim-grey-850);
+  --color-border-strong: var(--prim-grey-500);
+
+  --color-accent: var(--prim-blue-600);
+  --color-accent-hover: var(--prim-blue-700);
+  --color-on-accent: var(--prim-white);
+  --color-accent-text: var(--prim-blue-300);
+  --color-selected-surface: var(--prim-blue-900);
+  --color-focus: var(--prim-blue-300);
+
+  --color-hero-bg: var(--prim-grey-1000);
+  --color-hero-text: var(--prim-white);
+  --color-hero-muted: var(--prim-grey-300);
+  --color-hero-glow: var(--prim-blue-900);
+
+  --color-disabled-bg: var(--prim-grey-850);
+  --color-disabled-text: var(--prim-grey-400);
+  --color-skeleton: var(--prim-grey-900);
+  --color-skeleton-shine: var(--prim-grey-850);
+
+  --color-success: var(--prim-green-300);
+  --color-success-surface: var(--prim-green-900);
+  --color-danger: var(--prim-red-300);
+  --color-danger-surface: var(--prim-red-900);
+  --color-warning: var(--prim-amber-300);
+  --color-warning-surface: var(--prim-amber-900);
+
+  --shadow-raised: none;
+}
+
+/* Follow the system when the visitor has not chosen a skin. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --color-bg: var(--prim-grey-950);
+    --color-bg-subtle: var(--prim-grey-900);
+    --color-surface: var(--prim-grey-900);
+    --color-surface-raised: var(--prim-grey-850);
+    --color-text: var(--prim-grey-100);
+    --color-text-muted: var(--prim-grey-400);
+    --color-border: var(--prim-grey-850);
+    --color-border-strong: var(--prim-grey-500);
+
+    --color-accent: var(--prim-blue-600);
+    --color-accent-hover: var(--prim-blue-700);
+    --color-on-accent: var(--prim-white);
+    --color-accent-text: var(--prim-blue-300);
+    --color-selected-surface: var(--prim-blue-900);
+    --color-focus: var(--prim-blue-300);
+
+    --color-hero-bg: var(--prim-grey-1000);
+    --color-hero-text: var(--prim-white);
+    --color-hero-muted: var(--prim-grey-300);
+    --color-hero-glow: var(--prim-blue-900);
+
+    --color-disabled-bg: var(--prim-grey-850);
+    --color-disabled-text: var(--prim-grey-400);
+    --color-skeleton: var(--prim-grey-900);
+    --color-skeleton-shine: var(--prim-grey-850);
+
+    --color-success: var(--prim-green-300);
+    --color-success-surface: var(--prim-green-900);
+    --color-danger: var(--prim-red-300);
+    --color-danger-surface: var(--prim-red-900);
+    --color-warning: var(--prim-amber-300);
+    --color-warning-surface: var(--prim-amber-900);
+
+    --shadow-raised: none;
+  }
+}
