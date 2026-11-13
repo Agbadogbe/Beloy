@@ -60,7 +60,6 @@ export const spinner = () =>
 */
 export const logoMark = () =>
   raw(`<svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
-    <circle cx="20" cy="20" r="18.5" fill="none" stroke="currentColor" stroke-width="2"/>
-    <circle cx="20" cy="20" r="12.5" fill="none" stroke="currentColor" stroke-width="1"/>
-    <path d="M22.5 9.5 15 21.5h5.5L17.5 30.5 25 18.5h-5.5z" fill="currentColor"/>
+    <rect x="2" y="2" width="36" height="36" rx="9" fill="none" stroke="currentColor" stroke-width="2.5"/>
+    <path d="M23 8 13 22h6.5L17 32l10-14h-6.5z" fill="currentColor"/>
   </svg>`);
