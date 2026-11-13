@@ -1,6 +1,7 @@
 /*
   Copy, French. Same keys as en.js (checked by `node scripts/check.js`).
-  Written in French directly; no machine translation for this file.
+  Machine assisted: written in French by AI (Claude Code), not translated
+  from en.js, then read through by me.
 */
 
 export default {
