@@ -14,6 +14,8 @@ import { order } from '../data/order.js';
 import { MODELS } from '../api/contract.js';
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
+// Cover must start in the future (the API refuses today), so the picker starts tomorrow.
+const tomorrowIso = () => new Date(Date.now() + 86400000).toISOString().slice(0, 10);
 let errors = {};
 
 function validate() {
@@ -103,7 +105,7 @@ export default {
               label: t('flow.vehicle.delivery'),
               hint: t('flow.vehicle.deliveryHint'),
               type: 'date',
-              min: todayIso(),
+              min: tomorrowIso(),
               value: v.delivery_date,
               error: errors.delivery_date && t(errors.delivery_date),
             })}
