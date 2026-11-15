@@ -1,5 +1,11 @@
 # BMW electric vehicle cover, enrollment flow
 
+**Try it online:** https://agbadogbe.github.io/Beloy/ (add `?demo=1` to prefill the forms).
+That copy runs on GitHub Pages with the in-browser stub of the API (see below), so
+nothing needs installing, on a phone or a desktop.
+
+## Run it locally
+
 ```
 node server.js
 ```
@@ -13,7 +19,14 @@ No Node? Any static server works too (`python3 -m http.server 4000`): when the A
 does not answer, the front end falls back to an in-browser stub of the same contract
 and says so in the console.
 
+To open it from a phone on the same Wi-Fi, listen on every interface:
+`HOST=0.0.0.0 node server.js`, then open `http://<your-computer's-ip>:4000`.
+Some school or office networks block devices from reaching each other; use the
+online copy then.
+
 ## Useful URLs for the walkthrough
+
+They work locally and online, e.g. https://agbadogbe.github.io/Beloy/?demo=1&simulate=expired.
 
 | URL | What it shows |
 | --- | --- |
@@ -23,6 +36,22 @@ and says so in the console.
 | `/?demo=1&simulate=server_error` | Every call fails with 500 (retried once, then explained) |
 | `/?demo=1&simulate=expired` | Issuing the contract fails with 409 quote expired |
 | 3 claims, or a licence under 2 years | The carrier's 422 refusal, explained |
+
+## Behaviour worth knowing
+
+- **Phone first.** Checked in Chrome's device emulation from 320 px wide to desktop,
+  portrait and landscape, light and dark, French and English: no horizontal scroll, form fields at 16 px (no zoom on
+  iPhone), and 44 px touch targets on touch screens.
+- **Dates of birth and licence** are day / month / year selects, newest years first,
+  so 1994 is two taps away. The delivery date keeps the native calendar and starts
+  tomorrow, as the API requires.
+- **After the policy is issued, earlier steps are locked.** Going back and submitting
+  again would issue a second contract. The payment screen says so and offers
+  "Start a new quote", which asks first (the reference is not shown again) and then
+  clears every answer.
+- **State lives in memory.** A reload starts again, as the brief allows.
+- **Errors never show codes.** Codes, messages and request ids go to the console;
+  the customer gets a sentence and a way forward.
 
 ## Checks
 
