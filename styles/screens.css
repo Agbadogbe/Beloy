@@ -318,3 +318,7 @@
   .reference { padding: var(--space-4); }
   .reference__actions .button { inline-size: 100%; }
 }
+
+/* End of the payment screen: why the steps are locked, and the way out. */
+.payment__end { display: grid; justify-items: start; gap: var(--space-3); padding-block-start: var(--space-4); border-block-start: var(--border-width) solid var(--color-border); }
+.payment__locked { color: var(--color-text-muted); font-size: var(--font-size-sm); }

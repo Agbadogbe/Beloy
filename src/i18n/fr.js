@@ -258,6 +258,9 @@ export default {
   'flow.payment.period': 'Période',
   'flow.payment.periodValue': 'Du {start} au {end}',
   'flow.payment.startsAfterPayment': 'Le contrat prend effet le {start}, à condition que le paiement soit reçu.',
+  'flow.payment.locked': 'Votre contrat est émis : les étapes précédentes ne peuvent plus être modifiées.',
+  'flow.payment.startOver': 'Faire un nouveau devis',
+  'flow.payment.startOverConfirm': 'Avez-vous noté votre référence de paiement ? Elle ne sera plus affichée.',
 
   /* ---------- problems: never a code, always a way forward ---------- */
   'problem.action.retry': 'Réessayer',

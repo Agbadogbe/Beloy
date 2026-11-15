@@ -7,7 +7,7 @@
 import { html, render } from './html.js';
 import { t, setLocale, getLocale, locales } from './i18n.js';
 import { config } from './config.js';
-import { state } from './store.js';
+import { state, startOver } from './store.js';
 import { stepper } from './components/stepper.js';
 import { logoMark, icon } from './components/icons.js';
 
@@ -60,6 +60,13 @@ const ctx = {
   },
   complete(step) {
     completed.add(step);
+  },
+  /* After an issued contract: forget everything and go back to the landing page. */
+  startOver() {
+    Object.values(SCREENS).forEach((s) => s.reset?.());
+    completed.clear();
+    startOver();
+    ctx.go('landing');
   },
   /* The screen on show, for async work that must not redraw another one. */
   current: () => current,

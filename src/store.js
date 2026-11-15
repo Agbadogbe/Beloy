@@ -6,7 +6,7 @@
 import { order, demoDriver, demoHolder } from './data/order.js';
 import { config } from './config.js';
 
-export const state = {
+const fresh = () => ({
   vehicle: {
     model_code: order.model_code,
     list_price: order.list_price,
@@ -30,7 +30,14 @@ export const state = {
 
   // Contract lifecycle: idle -> loading -> issued | error
   contract: { status: 'idle', data: null, problem: null },
-};
+});
+
+export const state = fresh();
+
+/* A new journey from scratch, once a contract is issued and the customer wants another quote. */
+export function startOver() {
+  Object.assign(state, fresh());
+}
 
 /* The body of POST /v1/quotes, built from what the customer told us. */
 export function quoteRequest() {

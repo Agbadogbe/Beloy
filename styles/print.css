@@ -1,5 +1,5 @@
 /* Print / save as PDF from the payment screen: keep the reference, drop the chrome. */
 .site-header, .stepper-wrap, .site-footer, .skip-link,
-.reference__actions, .button--icon { display: none !important; }
+.reference__actions, .button--icon, .payment__end { display: none !important; }
 .reference { break-inside: avoid; }
 body { background: var(--color-print-bg); color: var(--color-print-text); }

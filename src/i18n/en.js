@@ -257,6 +257,9 @@ export default {
   'flow.payment.period': 'Period',
   'flow.payment.periodValue': '{start} to {end}',
   'flow.payment.startsAfterPayment': 'The policy starts on {start}, provided the payment has been received.',
+  'flow.payment.locked': 'Your policy is issued, so the earlier steps can no longer be changed.',
+  'flow.payment.startOver': 'Start a new quote',
+  'flow.payment.startOverConfirm': 'Have you noted your payment reference? It will not be shown again.',
 
   /* ---------- problems: never a code, always a way forward ---------- */
   'problem.action.retry': 'Try again',

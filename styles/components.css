@@ -205,6 +205,8 @@ body[data-screen="cover"] .site-footer { margin-block-start: 0; }
 .facts__row dd { text-align: end; font-weight: var(--font-weight-bold); }
 .facts__sub { display: block; font-size: var(--font-size-sm); }
 .facts dd.mono { white-space: nowrap; }
+/* A long policy number goes under its label rather than squeezing it. */
+.facts__row:has(dd.mono) { flex-wrap: wrap; }
 .facts--priced dd { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 .inline-note {

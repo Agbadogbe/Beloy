@@ -6,6 +6,9 @@
   - Big, high-contrast digits, reference grouped 3-3-3 (copy gives the raw digits).
   - Each value has its own copy button, plus "copy all three".
   - Print / save as PDF with a print stylesheet that keeps only this card.
+  - The contract is issued, so earlier steps are locked (no second contract
+    by going back and submitting again). The screen says so, and offers a
+    fresh quote, after a confirm, since the reference is not shown again.
 */
 
 import { html, render } from '../html.js';
@@ -41,7 +44,7 @@ function valueRow({ key, label, display, copyText }) {
 export default {
   id: 'payment',
 
-  render(root) {
+  render(root, ctx) {
     const c = state.contract.data;
     const p = c.payment;
     const monthly = c.premium.frequency === 'monthly';
@@ -104,6 +107,11 @@ export default {
             </dl>
             <p class="inline-note">${icon('info')}<span>${t('flow.payment.startsAfterPayment', { start: formatDate(c.starts_on) })}</span></p>
           </section>
+
+          <footer class="payment__end">
+            <p class="payment__locked">${t('flow.payment.locked')}</p>
+            <button class="button button--secondary" type="button" id="start-over">${t('flow.payment.startOver')}</button>
+          </footer>
         </div>`,
     );
 
@@ -127,6 +135,7 @@ export default {
         }, 2000);
       }
       if (e.target.closest('#print')) window.print();
+      if (e.target.closest('#start-over') && window.confirm(t('flow.payment.startOverConfirm'))) ctx.startOver();
     });
   },
 };
