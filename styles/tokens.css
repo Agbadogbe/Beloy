@@ -94,6 +94,7 @@
 
   --control-height: 3rem;       /* 48px, bmw.fr CTA height is 52px, 48 fits phones */
   --control-height-sm: 2.25rem;
+  --tap-target: 2.75rem;        /* 44px, the touch minimum (Apple HIG, WCAG 2.5.5) */
   --icon-size: 1.5rem;
   --icon-size-sm: 1.125rem;
   --icon-size-lg: 2rem;
@@ -116,6 +117,11 @@
   /* Print is always black on white, whatever the skin. */
   --color-print-bg: var(--prim-white);
   --color-print-text: var(--prim-grey-1000);
+}
+
+/* On touch screens, small controls grow to a full finger-sized target. */
+@media (pointer: coarse) {
+  :root { --control-height-sm: var(--tap-target); }
 }
 
 /* ---------- Light skin (extracted from bmw.fr) ---------- */

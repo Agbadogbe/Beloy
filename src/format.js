@@ -41,8 +41,9 @@ export function formatDate(isoDate) {
 }
 
 /** Month names in the current locale: ["janvier", ..., "décembre"]. */
+/* Short names ("sept.", "Sep"): the long ones do not fit a 320px phone. */
 export function monthNames() {
-  const f = formatter('month', (locale) => new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' }));
+  const f = formatter('month', (locale) => new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' }));
   return Array.from({ length: 12 }, (_, i) => f.format(new Date(Date.UTC(2000, i, 1))));
 }
 

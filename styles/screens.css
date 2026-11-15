@@ -304,10 +304,16 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--letter-spacing-caps);
   line-height: var(--line-height-tight);
+  white-space: nowrap;
   user-select: all;
 }
 .reference__note { font-size: var(--font-size-sm); color: var(--color-text-muted); }
 .reference__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+/* Narrow phones: the copy buttons drop their word (aria-label stays) so the digits keep one line. */
+@media (max-width: 25em) {
+  .reference__value .button__label { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .reference__value .button--icon { min-inline-size: var(--tap-target); padding-inline: var(--space-2); }
+}
 @media (max-width: 30em) {
   .reference { padding: var(--space-4); }
   .reference__actions .button { inline-size: 100%; }

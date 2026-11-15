@@ -55,8 +55,8 @@ export const spinner = () =>
 
 /*
   Stand-in mark: NOT the BMW roundel (the brief forbids shipping it).
-  A ring split by a single lightning stroke: says "electric", keeps the
-  circular silhouette people expect in the top left of a BMW page.
+  A rounded square with a lightning bolt: says "electric", and nothing in
+  it is round, so it cannot be read as a roundel.
 */
 export const logoMark = () =>
   raw(`<svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true" focusable="false">

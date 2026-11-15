@@ -113,12 +113,16 @@ export default {
       if (button) {
         const ok = await copy(button.dataset.copy);
         const label = button.querySelector('.button__label');
-        const original = label.textContent;
+        // Remembered once, so a second click within 2s does not restore "Copied".
+        button.dataset.label ??= label.textContent;
+        clearTimeout(button.copyTimer);
         label.textContent = ok ? button.dataset.copied : t('flow.payment.copyFailed');
-        button.classList.add('is-copied');
+        button.querySelector('.icon').outerHTML = String(icon(ok ? 'check' : 'copy'));
+        button.classList.toggle('is-copied', ok);
         status.textContent = label.textContent;
-        setTimeout(() => {
-          label.textContent = original;
+        button.copyTimer = setTimeout(() => {
+          label.textContent = button.dataset.label;
+          button.querySelector('.icon').outerHTML = String(icon('copy'));
           button.classList.remove('is-copied');
         }, 2000);
       }
